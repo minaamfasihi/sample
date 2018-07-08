@@ -14,6 +14,7 @@ Things you may want to cover:
 * Database initialization
 
 * How to run the test suite
+rails test test/models/user_test.rb 
 
 * Services (job queues, cache servers, search engines, etc.)
 
