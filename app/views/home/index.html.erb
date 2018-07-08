@@ -1,0 +1,23 @@
+<h1>Welcome to homify test app</h1>
+
+<% if user_signed_in? %>
+  <li>
+    <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
+
+    <% if can? :update, User %>
+      <%= render 'novice_users' %>        
+    <% end %>
+
+    <% if can? :create, Campaign %>
+      <%= link_to('Create Campaign', new_campaign_path, method: :get) %>
+    <% end %>
+
+    <br />
+    <%= link_to('View Campaigns', campaigns_path, method: :get) %>
+  </li>
+  
+<% else %>
+  <li>
+    <%= link_to('Login', new_user_session_path)  %>  
+  </li>
+<% end %>

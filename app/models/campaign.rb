@@ -1,7 +1,6 @@
 class Campaign < ApplicationRecord
   has_many :todo_lists, dependent: :destroy
-  has_many :comments, dependent: :destroy
-  belongs_to :user
+  belongs_to :expert
 
   validates :title, presence: true, length: { maximum: 100 }
   validates :tag, presence: true, length: { maximum: 30 }

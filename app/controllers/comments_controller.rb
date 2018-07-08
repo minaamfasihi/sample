@@ -24,7 +24,8 @@ class CommentsController < ApplicationController
   # POST /comments
   # POST /comments.json
   def create
-    @comment = Comment.new(comment_params)
+    @todo_list = TodoList.find_by_id(params[:comment][:todo_list_id])
+    @comment = @todo_list.comments.new(comment_params)
 
     respond_to do |format|
       if @comment.save

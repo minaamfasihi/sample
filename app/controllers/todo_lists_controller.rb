@@ -1,6 +1,6 @@
 class TodoListsController < ApplicationController
   before_action :set_todo_list, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_campaign, only: [:create]
   # GET /todo_lists
   # GET /todo_lists.json
   def index
@@ -24,7 +24,7 @@ class TodoListsController < ApplicationController
   # POST /todo_lists
   # POST /todo_lists.json
   def create
-    @todo_list = TodoList.new(todo_list_params)
+    @todo_list = current_user.todo_lists.new(status: params[:todo_list][:status], campaign_id: params[:todo_list][:campaign_id])
 
     respond_to do |format|
       if @todo_list.save
@@ -69,6 +69,10 @@ class TodoListsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def todo_list_params
-      params.require(:todo_list).permit(:status)
+      params.require(:todo_list).permit(:status, :campaign_id)
+    end
+
+    def set_campaign
+      @campaign = Campaign.find_by_id(params[:todo_list][:campaign_id])
     end
 end

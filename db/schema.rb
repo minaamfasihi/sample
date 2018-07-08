@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180708082820) do
+ActiveRecord::Schema.define(version: 20180708150826) do
 
   create_table "campaigns", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "title"
@@ -18,10 +18,10 @@ ActiveRecord::Schema.define(version: 20180708082820) do
     t.integer "estimated_duration"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.bigint "expert_id"
     t.index ["estimated_duration"], name: "index_campaigns_on_estimated_duration"
+    t.index ["expert_id"], name: "index_campaigns_on_expert_id"
     t.index ["tag"], name: "index_campaigns_on_tag"
-    t.index ["user_id"], name: "index_campaigns_on_user_id"
   end
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -61,7 +61,11 @@ ActiveRecord::Schema.define(version: 20180708082820) do
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "campaign_id"
+    t.bigint "user_id"
+    t.index ["campaign_id"], name: "index_todo_lists_on_campaign_id"
     t.index ["status"], name: "index_todo_lists_on_status"
+    t.index ["user_id"], name: "index_todo_lists_on_user_id"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -86,8 +90,9 @@ ActiveRecord::Schema.define(version: 20180708082820) do
     t.index ["status"], name: "index_users_on_status"
   end
 
-  add_foreign_key "campaigns", "users"
-  add_foreign_key "comments", "campaigns"
+  add_foreign_key "campaigns", "users", column: "expert_id"
   add_foreign_key "comments", "todo_lists"
   add_foreign_key "todo_items", "todo_lists", column: "todo_lists_id"
+  add_foreign_key "todo_lists", "campaigns"
+  add_foreign_key "todo_lists", "users"
 end

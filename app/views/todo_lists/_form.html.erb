@@ -13,7 +13,8 @@
 
   <div class="field">
     <%= form.label :status %>
-    <%= form.number_field :status, id: :todo_list_status %>
+    <%= form.select :status, TodoList.statuses.keys.map { |w| [w.humanize, w] } %>
+    <%= form.hidden_field :campaign_id, value: params[:campaign_id] %>
   </div>
 
   <div class="actions">

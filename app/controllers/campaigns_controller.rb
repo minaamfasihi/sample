@@ -14,7 +14,10 @@ class CampaignsController < ApplicationController
 
   # GET /campaigns/new
   def new
-    @campaign = Campaign.new
+    if current_user.is_expert?
+      @campaign = current_user.specific.campaigns.new
+      authorize! :write, @campaign
+    end
   end
 
   # GET /campaigns/1/edit
@@ -24,15 +27,17 @@ class CampaignsController < ApplicationController
   # POST /campaigns
   # POST /campaigns.json
   def create
-    @campaign = Campaign.new(campaign_params)
+    if current_user.is_expert?
+      @campaign = current_user.specific.campaigns.new(campaign_params)
 
-    respond_to do |format|
-      if @campaign.save
-        format.html { redirect_to @campaign, notice: 'Campaign was successfully created.' }
-        format.json { render :show, status: :created, location: @campaign }
-      else
-        format.html { render :new }
-        format.json { render json: @campaign.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @campaign.save
+          format.html { redirect_to @campaign, notice: 'Campaign was successfully created.' }
+          format.json { render :show, status: :created, location: @campaign }
+        else
+          format.html { render :new }
+          format.json { render json: @campaign.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -69,6 +74,6 @@ class CampaignsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def campaign_params
-      params.fetch(:campaign, {})
+      params.require(:campaign).permit(:tag, :title, :estimated_duration)
     end
 end

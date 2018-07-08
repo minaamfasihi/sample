@@ -1,0 +1,12 @@
+<div>
+  <% @novices.each do |novice| %>
+    <div>
+      Username: <%= novice.username %>
+      <ul>
+        <li>Email: <%= novice.email %></li>
+        <li>Status: <%= novice.status %></li>
+        <%= link_to "Edit User Status", edit_user_status_path(novice) %>
+      </ul>
+    </div>
+  <% end %>
+</div>

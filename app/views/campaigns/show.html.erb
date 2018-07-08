@@ -1,4 +1,32 @@
 <p id="notice"><%= notice %></p>
 
+<tr>
+  <th>Title</th>
+  <th>Tag</th>
+  <th>Estimated Duration</th>
+  <th></th>
+  <th></th>
+  <th></th>
+  <th></th>
+</tr>
+<br />
+<tr>
+  <td>
+    <%= @campaign.title %>
+  </td>
+  <td>
+    <%= @campaign.tag %>
+  </td>
+  <td>
+    <%= @campaign.estimated_duration %>
+  </td>
+  <td>
+    <% @campaign.todo_lists.each do |todo_list| %>
+      <li>Status: <%= todo_list.status %></li>
+      <%= link_to('Go to TodoList', todo_list_path(todo_list)) %>
+    <% end %>
+  </td>
+</tr>
+
 <%= link_to 'Edit', edit_campaign_path(@campaign) %> |
 <%= link_to 'Back', campaigns_path %>

@@ -5,5 +5,9 @@
   <%= @todo_list.status %>
 </p>
 
+<% if @todo_list.user.is_novice? %>
+  <%= link_to 'Leave comment', new_comment_path(todo_list_id: @todo_list.id) %>
+<% end %>
+<br />
 <%= link_to 'Edit', edit_todo_list_path(@todo_list) %> |
 <%= link_to 'Back', todo_lists_path %>
